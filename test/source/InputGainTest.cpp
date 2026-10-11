@@ -1,6 +1,8 @@
-
-#include <faoxiamp_plugin/faoxiamp_plugin.h>
+#include <FaoxiAmp/InputGain.h>
 #include <gtest/gtest.h>
+
+#include <cmath>
+#include <vector>
 
 namespace faoxiamp {
 

@@ -83,22 +83,42 @@ target_compile_definitions(FaoxiAmpPlugin
     JUCE_VST3_CAN_REPLACE_VST2=0
 )
 
-# The plugin core is a JUCE module, like in the course:
-# faoxiamp_plugin/faoxiamp_plugin.h lists every header,
-# faoxiamp_plugin/faoxiamp_plugin.cpp includes every source file.
-juce_add_module(faoxiamp_plugin ALIAS_NAMESPACE faoxiamp)
+# The plugin core is a regular CMake library shared by the plugin and the tests.
+# Every .cpp is compiled on its own and every header includes what it uses,
+# so IDEs (CLion) can analyse each file independently.
+add_library(faoxiamp_core INTERFACE)
 
-target_compile_definitions(faoxiamp_plugin
+target_sources(faoxiamp_core
+  INTERFACE
+    ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/include/FaoxiAmp/InputGain.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/include/FaoxiAmp/Parameters.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/include/FaoxiAmp/PluginProcessor.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/source/Parameters.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/source/PluginProcessor.cpp
+)
+
+target_include_directories(faoxiamp_core
+  INTERFACE
+    ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/include
+)
+
+target_compile_definitions(faoxiamp_core
   INTERFACE
     FAOXIAMP_PLUGIN_NAME="${FAOXIAMP_PLUGIN_NAME}"
 )
 
-target_compile_options(faoxiamp_plugin INTERFACE "${PROJECT_WARNINGS_CXX}")
+target_compile_options(faoxiamp_core INTERFACE "${PROJECT_WARNINGS_CXX}")
+
+target_link_libraries(faoxiamp_core
+  INTERFACE
+    juce::juce_audio_utils
+    juce::juce_dsp
+)
 
 target_link_libraries(
   FaoxiAmpPlugin
   PRIVATE
-    faoxiamp::faoxiamp_plugin
+    faoxiamp_core
   PUBLIC
     juce::juce_recommended_config_flags
     juce::juce_recommended_lto_flags

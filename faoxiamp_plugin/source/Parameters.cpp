@@ -1,3 +1,7 @@
+#include "FaoxiAmp/Parameters.h"
+
+#include <memory>
+
 namespace faoxiamp {
 namespace {
 // Version hint of every juce::ParameterID: the plugin version in which the

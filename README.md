@@ -57,7 +57,7 @@ FaoxiAmp/
 ├── CMakeLists.txt          # plugin target, formats, JUCE download
 ├── CMakePresets.json       # build configurations
 ├── cmake/                  # CPM package manager, compiler warnings
-├── faoxiamp_plugin/        # plugin core, as a JUCE module
+├── faoxiamp_plugin/        # plugin core (faoxiamp_core library), shared by plugin and tests
 │   ├── include/FaoxiAmp/   # headers
 │   └── source/             # implementation
 └── test/                   # GoogleTest unit tests

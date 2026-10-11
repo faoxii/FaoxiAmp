@@ -1,5 +1,7 @@
 #pragma once
 
+#include <juce_audio_processors/juce_audio_processors.h>
+
 namespace faoxiamp {
 /** All the user-facing parameters of the plugin (see the spec in README.md).
  *  They are created once, registered in the processor, and accessed through

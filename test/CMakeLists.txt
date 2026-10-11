@@ -25,7 +25,7 @@ target_compile_definitions(FaoxiAmpPluginTest
         PRIVATE
         JUCE_WEB_BROWSER=0
         JUCE_USE_CURL=0
-        # Re-exported because the faoxiamp_plugin module does not define them
+        # Re-exported because faoxiamp_core is not a plugin target
         JucePlugin_Manufacturer="$<TARGET_PROPERTY:FaoxiAmpPlugin,JUCE_COMPANY_NAME>"
         JucePlugin_Name="$<TARGET_PROPERTY:FaoxiAmpPlugin,JUCE_PLUGIN_NAME>"
         JucePlugin_VersionString="$<TARGET_PROPERTY:FaoxiAmpPlugin,JUCE_VERSION>"
@@ -34,7 +34,7 @@ target_compile_definitions(FaoxiAmpPluginTest
 target_link_libraries(
         FaoxiAmpPluginTest
         PRIVATE
-        faoxiamp::faoxiamp_plugin
+        faoxiamp_core
         GTest::gtest_main
         juce::juce_recommended_warning_flags
 )

@@ -1,5 +1,7 @@
-#include <faoxiamp_plugin/faoxiamp_plugin.h>
+#include <FaoxiAmp/PluginProcessor.h>
 #include <gtest/gtest.h>
+
+#include <cmath>
 
 namespace faoxiamp {
 TEST(PluginProcessor, Constructs) {

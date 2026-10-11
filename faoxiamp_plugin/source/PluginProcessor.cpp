@@ -1,3 +1,7 @@
+#include "FaoxiAmp/PluginProcessor.h"
+
+#include <ranges>
+
 namespace faoxiamp {
 PluginProcessor::PluginProcessor()
     : AudioProcessor(
