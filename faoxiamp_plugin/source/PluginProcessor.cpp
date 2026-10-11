@@ -53,8 +53,9 @@ void PluginProcessor::changeProgramName(int index,
 
 void PluginProcessor::prepareToPlay(double sampleRate,
                                     int expectedMaxFramesPerBlock) {
-  // TODO(Mathis): prepare the DSP chain here (gain, waveshaper, EQ, cab, volume)
-  juce::ignoreUnused(sampleRate, expectedMaxFramesPerBlock);
+  // TODO(Mathis): prepare the rest of the chain (waveshaper, EQ, cab, volume)
+  juce::ignoreUnused(expectedMaxFramesPerBlock);
+  inputGain.prepare(sampleRate);
 }
 
 void PluginProcessor::releaseResources() {
@@ -84,7 +85,10 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   const auto numOutputChannels = getTotalNumOutputChannels();
   const auto numSamples = buffer.getNumSamples();
 
-  // TODO(Mathis): process channel 0 through the amp chain here.
+  // TODO(Mathis): add the rest of the chain (waveshaper, EQ, cab, volume)
+  inputGain.setKnob(parameters.gain.get());
+
+  inputGain.process(buffer);
 
   // Mono in, stereo out: the processed signal of channel 0 is copied to the
   // other output channels. Identical copies are perfectly in phase.
