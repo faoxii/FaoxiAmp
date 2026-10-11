@@ -35,4 +35,5 @@ END_JUCE_MODULE_DECLARATION
 
 // Order matters: a header must come after the headers it depends on.
 #include "include/FaoxiAmp/Parameters.h"
+#include "include/FaoxiAmp/InputGain.h"
 #include "include/FaoxiAmp/PluginProcessor.h"
