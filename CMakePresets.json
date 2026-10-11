@@ -1,0 +1,52 @@
+{
+  "version": 5,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "default",
+      "binaryDir": "cmake-build",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "default-with-tests",
+      "inherits": "default",
+      "binaryDir": "cmake-build-with-tests",
+      "cacheVariables": {
+        "BUILD_TESTS": "ON"
+      }
+    },
+    {
+      "name": "release",
+      "binaryDir": "cmake-release-build",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "xcode",
+      "generator": "Xcode",
+      "binaryDir": "xcode-build"
+    }
+  ],
+  "buildPresets": [
+    { "name": "default", "configurePreset": "default" },
+    { "name": "default-with-tests", "configurePreset": "default-with-tests" },
+    { "name": "release", "configurePreset": "release", "configuration": "Release" },
+    { "name": "xcode", "configurePreset": "xcode" }
+  ],
+  "testPresets": [
+    {
+      "name": "default-with-tests",
+      "configurePreset": "default-with-tests",
+      "output": { "outputOnFailure": true },
+      "execution": { "noTestsAction": "error", "stopOnFailure": false }
+    }
+  ]
+}
