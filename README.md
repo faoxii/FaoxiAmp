@@ -14,12 +14,12 @@ mono in → gain → tanh waveshaper → 3-band EQ → cabinet IR → volume →
 
 | Parameter | Range | Role |
 |---|---|---|
-| Gain | 0 to 36 dB | input drive, from clean to crunch |
-| Bass / Mid / Treble | −12 to +12 dB | tone shaping |
+| Gain | 0 to 10 | preamp drive, from clean to crunch |
+| Bass / Mid / Treble | 0 to 10 (5 = flat) | tone shaping |
 | Volume | −48 to +12 dB | output level |
 | Cab | on / off | cabinet simulation (built-in impulse response) |
 
-All parameters are smoothed to avoid clicks.
+Gain and tone controls use amp-style 0–10 knobs, like a real amp front panel: in V1 they are mapped to dB internally, and in V2 they will drive a modelled tone stack. All parameters are smoothed to avoid clicks.
 
 ## V1 specification
 
