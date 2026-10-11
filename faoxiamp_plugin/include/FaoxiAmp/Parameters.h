@@ -7,10 +7,10 @@ namespace faoxiamp {
 struct Parameters {
   explicit Parameters(juce::AudioProcessor&);
 
-  juce::AudioParameterFloat& gain;     // input drive, in dB
-  juce::AudioParameterFloat& bass;     // EQ low band, in dB
-  juce::AudioParameterFloat& mid;      // EQ mid band, in dB
-  juce::AudioParameterFloat& treble;   // EQ high band, in dB
+  juce::AudioParameterFloat& gain;     // preamp drive knob, 0 to 10
+  juce::AudioParameterFloat& bass;     // tone knob, 0 to 10 (5 = flat)
+  juce::AudioParameterFloat& mid;      // tone knob, 0 to 10 (5 = flat)
+  juce::AudioParameterFloat& treble;   // tone knob, 0 to 10 (5 = flat)
   juce::AudioParameterFloat& volume;   // output level, in dB
   juce::AudioParameterBool& cabEnabled;  // cabinet IR on/off
 
