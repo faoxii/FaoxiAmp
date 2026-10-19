@@ -16,6 +16,7 @@ todo.md
 diff_todo_complete.sh
 .venv/
 
+
 # Prerequisites
 *.d
 
@@ -464,3 +465,6 @@ FodyWeavers.xsd
 # IntelliJ
 .idea
 **/cmake-build*
+
+
+prototypes/*.wav

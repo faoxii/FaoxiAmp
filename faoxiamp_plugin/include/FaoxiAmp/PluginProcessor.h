@@ -4,6 +4,7 @@
 
 #include "FaoxiAmp/InputGain.h"
 #include "FaoxiAmp/Parameters.h"
+#include "FaoxiAmp/Waveshaper.h"
 
 namespace faoxiamp {
 class PluginProcessor : public juce::AudioProcessor {

@@ -89,12 +89,13 @@ target_compile_definitions(FaoxiAmpPlugin
 add_library(faoxiamp_core INTERFACE)
 
 target_sources(faoxiamp_core
-  INTERFACE
-    ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/include/FaoxiAmp/InputGain.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/include/FaoxiAmp/Parameters.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/include/FaoxiAmp/PluginProcessor.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/source/Parameters.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/source/PluginProcessor.cpp
+        INTERFACE
+        ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/include/FaoxiAmp/InputGain.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/include/FaoxiAmp/Parameters.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/include/FaoxiAmp/PluginProcessor.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/include/FaoxiAmp/Waveshaper.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/source/Parameters.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/source/PluginProcessor.cpp
 )
 
 target_include_directories(faoxiamp_core

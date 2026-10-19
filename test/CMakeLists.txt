@@ -19,6 +19,7 @@ cpmaddpackage(
 add_executable(FaoxiAmpPluginTest
         source/PluginProcessorTest.cpp
         source/InputGainTest.cpp
+        source/WaveshaperTest.cpp
 )
 
 target_compile_definitions(FaoxiAmpPluginTest

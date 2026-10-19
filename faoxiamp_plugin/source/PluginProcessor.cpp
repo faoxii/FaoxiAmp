@@ -89,10 +89,11 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   const auto numOutputChannels = getTotalNumOutputChannels();
   const auto numSamples = buffer.getNumSamples();
 
-  // TODO(Mathis): add the rest of the chain (waveshaper, EQ, cab, volume)
+  // TODO(Mathis): add the rest of the chain (EQ, cab, volume)
   inputGain.setKnob(parameters.gain.get());
-
   inputGain.process(buffer);
+
+  Waveshaper::process(buffer);
 
   // Mono in, stereo out: the processed signal of channel 0 is copied to the
   // other output channels. Identical copies are perfectly in phase.
