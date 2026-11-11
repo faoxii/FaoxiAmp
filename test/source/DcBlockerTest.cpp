@@ -30,8 +30,29 @@ TEST(DcBlocker, ConstantInputDecaysToZero) {
   }
   dcBlocker.process(buffer);
 
-  EXPECT_GT(buffer.getSample(0, 0), 0.49f);  // GT = greater than
+  // First sample still close to the input: the mean has barely started to move.
+  EXPECT_GT(buffer.getSample(0, 0), 0.49f);
   EXPECT_NEAR(buffer.getSample(0, buffer.getNumSamples() - 1), 0.f, 1e-3f);
+}
+
+TEST(DcBlocker, TimeConstantMatchesCutoff) {
+  DcBlocker dcBlocker;
+  dcBlocker.prepare(testSampleRate, 1);
+
+  const auto samplesPerTimeConstant = static_cast<int>(
+      std::round(testSampleRate /
+                 (juce::MathConstants<double>::twoPi * DcBlocker::cutoffHz)));
+
+  juce::AudioBuffer<float> buffer{1, samplesPerTimeConstant};
+  for (int i = 0; i < buffer.getNumSamples(); ++i) {
+    buffer.setSample(0, i, 1.f);
+  }
+
+  dcBlocker.process(buffer);
+
+  // After one time constant, 63 % of the step is removed: e^-1 remains.
+  EXPECT_NEAR(buffer.getSample(0, buffer.getNumSamples() - 1), std::exp(-1.f),
+              0.01f);
 }
 
 }  // namespace faoxiamp
