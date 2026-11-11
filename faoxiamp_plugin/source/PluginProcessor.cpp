@@ -57,9 +57,11 @@ void PluginProcessor::changeProgramName(int index,
 
 void PluginProcessor::prepareToPlay(double sampleRate,
                                     int expectedMaxFramesPerBlock) {
-  // TODO(Mathis): prepare the rest of the chain (waveshaper, EQ, cab, volume)
+  // TODO(Mathis): prepare the rest of the chain (EQ, cab, volume)
   juce::ignoreUnused(expectedMaxFramesPerBlock);
   inputGain.prepare(sampleRate);
+  dcBlocker.prepare(sampleRate, juce::jmax(getTotalNumInputChannels(),
+                                           getTotalNumOutputChannels()));
 }
 
 void PluginProcessor::releaseResources() {
@@ -94,6 +96,7 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   inputGain.process(buffer);
 
   Waveshaper::process(buffer);
+  dcBlocker.process(buffer);
 
   // Mono in, stereo out: the processed signal of channel 0 is copied to the
   // other output channels. Identical copies are perfectly in phase.
@@ -136,8 +139,8 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
     if (auto* withId =
             dynamic_cast<juce::AudioProcessorParameterWithID*>(parameter)) {
       if (state->hasAttribute(withId->paramID)) {
-        parameter->setValueNotifyingHost(static_cast<float>(
-            state->getDoubleAttribute(withId->paramID)));
+        parameter->setValueNotifyingHost(
+            static_cast<float>(state->getDoubleAttribute(withId->paramID)));
       }
     }
   }

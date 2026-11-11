@@ -7,8 +7,6 @@
 #include "FaoxiAmp/Parameters.h"
 #include "FaoxiAmp/Waveshaper.h"
 
-
-
 namespace faoxiamp {
 class PluginProcessor : public juce::AudioProcessor {
 public:
@@ -46,6 +44,7 @@ public:
 private:
   Parameters parameters{*this};
   InputGain inputGain;
+  DcBlocker dcBlocker;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginProcessor)
 };
