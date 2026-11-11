@@ -41,4 +41,25 @@ TEST(InputGain, EachKnobStepAddsTheSameGain) {
   }
 }
 
+TEST(InputGain, SetKnobAppliesMappedGain) {
+  InputGain inputGain;
+  constexpr double sampleRate = 48000.0;
+  // Twice the ramp length, so the gain has surely reached its target.
+  constexpr auto numSamples =
+      static_cast<int>(2 * SmoothedGain::rampDurationSeconds * sampleRate);
+  inputGain.prepare(sampleRate);
+
+  inputGain.setKnob(5.f);
+
+  juce::AudioBuffer<float> buffer{1, numSamples};
+  for (int i = 0; i < buffer.getNumSamples(); ++i) {
+    buffer.setSample(0, i, 1.f);
+  }
+
+  inputGain.process(buffer);
+
+  EXPECT_NEAR(buffer.getSample(0, buffer.getNumSamples() - 1),
+              InputGain::knobToGain(5.f), 1e-3f);
+}
+
 }  // namespace faoxiamp

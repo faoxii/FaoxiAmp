@@ -95,6 +95,7 @@ target_sources(faoxiamp_core
         ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/include/FaoxiAmp/PluginProcessor.h
         ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/include/FaoxiAmp/Waveshaper.h
         ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/include/FaoxiAmp/DcBlocker.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/include/FaoxiAmp/SmoothedGain.h
         ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/source/Parameters.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/faoxiamp_plugin/source/PluginProcessor.cpp
 )
