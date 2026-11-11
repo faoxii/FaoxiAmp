@@ -2,9 +2,12 @@
 
 #include <juce_audio_processors/juce_audio_processors.h>
 
+#include "FaoxiAmp/DcBlocker.h"
 #include "FaoxiAmp/InputGain.h"
 #include "FaoxiAmp/Parameters.h"
 #include "FaoxiAmp/Waveshaper.h"
+
+
 
 namespace faoxiamp {
 class PluginProcessor : public juce::AudioProcessor {
