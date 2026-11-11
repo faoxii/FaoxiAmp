@@ -73,4 +73,38 @@ TEST(DcBlocker, ChannelsHaveIndependentState) {
   }
 }
 
+TEST(DcBlocker, StatePersistsAcrossBlocks) {
+  constexpr int blockSize = 512;
+
+  DcBlocker blockerSingle;
+  DcBlocker blockerSplit;
+
+  blockerSingle.prepare(testSampleRate, 1);
+  blockerSplit.prepare(testSampleRate, 1);
+
+  juce::AudioBuffer<float> bufferSingle{1, 2 * blockSize};
+  juce::AudioBuffer<float> bufferSplit1{1, blockSize};
+  juce::AudioBuffer<float> bufferSplit2{1, blockSize};
+
+  for (int i = 0; i < 2 * blockSize; ++i) {
+    bufferSingle.setSample(0, i, 1.f);
+  }
+  for (int i = 0; i < blockSize; ++i) {
+    bufferSplit1.setSample(0, i, 1.f);
+    bufferSplit2.setSample(0, i, 1.f);
+  }
+
+  blockerSingle.process(bufferSingle);
+  blockerSplit.process(bufferSplit1);
+  blockerSplit.process(bufferSplit2);
+
+  for (int i = 0; i < blockSize; ++i) {
+    EXPECT_FLOAT_EQ(bufferSingle.getSample(0, i), bufferSplit1.getSample(0, i));
+  }
+
+  for (int i = 0; i < blockSize; ++i) {
+    EXPECT_FLOAT_EQ(bufferSingle.getSample(0, i + blockSize), bufferSplit2.getSample(0, i));
+  }
+}
+
 }  // namespace faoxiamp
