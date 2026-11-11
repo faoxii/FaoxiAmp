@@ -55,4 +55,22 @@ TEST(DcBlocker, TimeConstantMatchesCutoff) {
               0.01f);
 }
 
+TEST(DcBlocker, ChannelsHaveIndependentState) {
+  DcBlocker dcBlocker;
+  dcBlocker.prepare(testSampleRate, 2);
+
+  juce::AudioBuffer<float> buffer{2, 512};
+  buffer.clear();
+  for (int i = 0; i < buffer.getNumSamples(); ++i) {
+    buffer.setSample(0, i, 1.f);
+  }
+
+  dcBlocker.process(buffer);
+
+  // The DC on channel 0 must not leak into channel 1.
+  for (int i = 0; i < buffer.getNumSamples(); ++i) {
+    EXPECT_EQ(buffer.getSample(1, i), 0.f);
+  }
+}
+
 }  // namespace faoxiamp
