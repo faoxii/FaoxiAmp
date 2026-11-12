@@ -5,6 +5,7 @@
 #include "FaoxiAmp/DcBlocker.h"
 #include "FaoxiAmp/InputGain.h"
 #include "FaoxiAmp/Parameters.h"
+#include "FaoxiAmp/SmoothedGain.h"
 #include "FaoxiAmp/Waveshaper.h"
 
 namespace faoxiamp {
@@ -45,6 +46,7 @@ private:
   Parameters parameters{*this};
   InputGain inputGain;
   DcBlocker dcBlocker;
+  SmoothedGain outputVolume; // master volume
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginProcessor)
 };

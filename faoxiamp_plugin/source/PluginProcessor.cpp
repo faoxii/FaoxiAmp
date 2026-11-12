@@ -57,11 +57,12 @@ void PluginProcessor::changeProgramName(int index,
 
 void PluginProcessor::prepareToPlay(double sampleRate,
                                     int expectedMaxFramesPerBlock) {
-  // TODO(Mathis): prepare the rest of the chain (EQ, cab, volume)
+  // TODO(Mathis): prepare the rest of the chain (EQ, cab)
   juce::ignoreUnused(expectedMaxFramesPerBlock);
   inputGain.prepare(sampleRate);
   dcBlocker.prepare(sampleRate, juce::jmax(getTotalNumInputChannels(),
                                            getTotalNumOutputChannels()));
+  outputVolume.prepare(sampleRate);
 }
 
 void PluginProcessor::releaseResources() {
@@ -91,12 +92,25 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   const auto numOutputChannels = getTotalNumOutputChannels();
   const auto numSamples = buffer.getNumSamples();
 
-  // TODO(Mathis): add the rest of the chain (EQ, cab, volume)
-  inputGain.setKnob(parameters.gain.get());
-  inputGain.process(buffer);
+  // Mono input: only channel 0 carries the guitar, so the chain processes it
+  // alone; it is copied to the other channels at the end.
+  const auto numChannelsToProcess =
+      (numInputChannels == 1) ? 1 : buffer.getNumChannels();
 
-  Waveshaper::process(buffer);
-  dcBlocker.process(buffer);
+  // A view on the first numChannelsToProcess channels of buffer: no sample copy,
+  // and no heap allocation (JUCE stores up to 32 channel pointers internally).
+  juce::AudioBuffer<float> processedChannels{buffer.getArrayOfWritePointers(),
+                                             numChannelsToProcess, numSamples};
+
+  // TODO(Mathis): add the rest of the chain (EQ, cab)
+  inputGain.setKnob(parameters.gain.get());
+  inputGain.process(processedChannels);
+
+  Waveshaper::process(processedChannels);
+  dcBlocker.process(processedChannels);
+
+  outputVolume.setGainDecibels(parameters.volume.get());
+  outputVolume.process(processedChannels);
 
   // Mono in, stereo out: the processed signal of channel 0 is copied to the
   // other output channels. Identical copies are perfectly in phase.
@@ -113,7 +127,6 @@ bool PluginProcessor::hasEditor() const {
 
 juce::AudioProcessorEditor* PluginProcessor::createEditor() {
   // Temporary UI: JUCE draws one slider per parameter automatically.
-  // The custom UI comes in the week of 26/10.
   return new juce::GenericAudioProcessorEditor(*this);
 }
 
