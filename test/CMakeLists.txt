@@ -21,6 +21,8 @@ add_executable(FaoxiAmpPluginTest
         source/InputGainTest.cpp
         source/WaveshaperTest.cpp
         source/DcBlockerTest.cpp
+        source/SmoothedGainTest.cpp
+
 )
 
 target_compile_definitions(FaoxiAmpPluginTest
